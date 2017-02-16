@@ -31,6 +31,7 @@ namespace Calculator
             Minus.IsEnabled = false;
             Times.IsEnabled = false;
             Div.IsEnabled = false;
+            Square.IsEnabled = false;
             Equals.IsEnabled = true;
         }
         public void EnableButtons()
@@ -39,7 +40,29 @@ namespace Calculator
             Minus.IsEnabled = true;
             Times.IsEnabled = true;
             Div.IsEnabled = true;
+            Square.IsEnabled = true;
             Equals.IsEnabled = false;
+        }
+        public void IntConvert()
+        {
+            try
+            {
+                if(Convert.ToInt64(Textbox1.Text) > 2147483647)
+                {
+                    MessageBox.Show("Number exceeds limits of a 32bit integer!");
+                    return;
+                }
+                first = Convert.ToInt32(Textbox1.Text);
+                Textbox1.Clear();
+                DisableButtons();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("That's not a valid number!");
+                Textbox1.Clear();
+                return;
+            }
+
         }
 
         public MainWindow()
@@ -49,50 +72,20 @@ namespace Calculator
 
         private void Times_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                first = Convert.ToInt32(Textbox1.Text);
-                method = "*";
-                Textbox1.Clear();
-                DisableButtons();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("That's not a valid number!");
-                Textbox1.Clear();
-            }
+            IntConvert();
+            method = "*";
         }
 
         private void Plus_Click(object sender, RoutedEventArgs e)
         {
-                try
-                {
-                    first = Convert.ToInt32(Textbox1.Text);
-                    method = "+";
-                    Textbox1.Clear();
-                    DisableButtons();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("That's not a valid number!");
-                    Textbox1.Clear();
-                }
-            }
+            IntConvert();
+            method = "+";
+        }
 
         private void Minus_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                first = Convert.ToInt32(Textbox1.Text);
-                method = "-";
-                Textbox1.Clear();
-                DisableButtons();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("That's not a valid number!");
-                Textbox1.Clear();
-            }
+            IntConvert();
+            method = "-";
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
@@ -153,16 +146,27 @@ namespace Calculator
 
         private void Div_Click(object sender, RoutedEventArgs e)
         {
+            IntConvert();
+            method = "/";
+        }
+
+        private void Square_Click(object sender, RoutedEventArgs e)
+        {
+            int square;
             try
             {
-                first = Convert.ToInt32(Textbox1.Text);
-                method = "/";
+                square = Convert.ToInt32(Textbox1.Text);
                 Textbox1.Clear();
-                DisableButtons();
+                int squareResult;
+                squareResult = square * square;
+                string squareString;
+                squareString = Convert.ToString(squareResult);
+                Textbox1.Text = squareString;
+                Lb1.Items.Add(squareString);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                MessageBox.Show("That's not a valid number!");
+                MessageBox.Show("Thats not a valid number!");
                 Textbox1.Clear();
             }
         }
